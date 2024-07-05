@@ -12,8 +12,8 @@ using blogger.Data;
 namespace blogger.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240621124220_IntialMigration")]
-    partial class IntialMigration
+    [Migration("20240703114507_Addedcreateddate12222")]
+    partial class Addedcreateddate12222
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,6 +70,9 @@ namespace blogger.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()

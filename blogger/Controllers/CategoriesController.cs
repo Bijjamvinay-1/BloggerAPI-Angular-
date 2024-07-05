@@ -3,6 +3,7 @@ using blogger.Models.Domain;
 using blogger.Models.DTO;
 using blogger.Repositories.Interface;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,8 @@ namespace blogger.API.Controllers
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    UrlHandle = category.UrlHandle
+                    UrlHandle = category.UrlHandle,
+                    CreatedDate = category.CreatedDate
                 });
             }
 
@@ -56,7 +58,8 @@ namespace blogger.API.Controllers
             {
                 Id = existingCategory.Id,
                 Name = existingCategory.Name,
-                UrlHandle = existingCategory.UrlHandle
+                UrlHandle = existingCategory.UrlHandle,
+                CreatedDate = existingCategory.CreatedDate
             };
 
             return Ok(response);
@@ -65,6 +68,7 @@ namespace blogger.API.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequestDto request)
         {
             // Map DTO to Domain Model
@@ -90,6 +94,7 @@ namespace blogger.API.Controllers
         // PUT: https://localhost:7298/api/categories/{id}
         [HttpPut]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> EditCategory([FromRoute] Guid id, UpdateCategoryRequestDto request)
         {
             // Convert DTO to Domain Model
@@ -121,6 +126,7 @@ namespace blogger.API.Controllers
         // DELETE: https://localhost:7298/api/categories/{id}
         [HttpDelete]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
         {
             var category = await categoryRepository.DeleteAsync(id);
